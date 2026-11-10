@@ -8,7 +8,10 @@ Current scope: Programming & Data Structures (PDS). Other subjects come later.
 - `raw/<year>/` : source question paper + official answer key PDFs. Git-ignored. NEVER edit, never commit.
 - `docs/<subject>/<topic>/<year>-set<n>-q<no>.md` : one file per question.
 - `docs/assets/<year>/` : cropped figures and diagrams (committed).
-- `scripts/build_index.py` : builds `docs/by-year/` from frontmatter. That folder is GENERATED and git-ignored. Never edit it by hand.
+- `scripts/build_index.py` : builds navigation pages from question frontmatter. These are GENERATED and
+  git-ignored, never edit them by hand: `docs/index.md`, `docs/<subject>/index.md`,
+  `docs/<subject>/<topic>/index.md`, `docs/by-year/`.
+- `scripts/home_template.md` : the text of the home page. Edit this (not `docs/index.md`) to change it.
 
 ## Naming
 - Subject folder: `programming-and-data-structures`. Topic folders are kebab-case (see topic list).

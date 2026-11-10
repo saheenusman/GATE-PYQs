@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-"""Build docs/by-year/ from question-file frontmatter.
+"""Generate navigation pages from question-file frontmatter.
 
 Run from the repo root:  python scripts/build_index.py
-The by-year folder is generated and git-ignored.
+
+Generated (git-ignored, never edit by hand):
+  docs/index.md                       home page, from scripts/home_template.md
+  docs/<subject>/index.md             subject page with topic counts
+  docs/<subject>/<topic>/index.md     topic page listing its questions
+  docs/by-year/                       year pages and the "needs attention" list
 """
 from __future__ import annotations
 
@@ -15,8 +20,33 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
-OUT = DOCS / "by-year"
+BY_YEAR = DOCS / "by-year"
+TEMPLATE = ROOT / "scripts" / "home_template.md"
 FM = re.compile(r"\A---\n(.*?)\n---\n", re.S)
+
+SUBJECT_NAMES = {
+    "programming-and-data-structures": "Programming & Data Structures",
+}
+TOPIC_ORDER = [
+    "c-basics-and-pointers", "recursion", "arrays", "stacks-and-queues",
+    "linked-lists", "trees", "binary-search-trees", "heaps", "graphs",
+]
+
+
+def subject_name(slug: str) -> str:
+    return SUBJECT_NAMES.get(slug, slug.replace("-", " ").title())
+
+
+def topic_name(slug: str) -> str:
+    return slug.replace("-", " ").capitalize()
+
+
+def topic_sort_key(slug: str) -> tuple[int, str]:
+    return (TOPIC_ORDER.index(slug), slug) if slug in TOPIC_ORDER else (len(TOPIC_ORDER), slug)
+
+
+def question_sort_key(q: dict) -> tuple[int, int, int]:
+    return (-int(q["year"]), int(q.get("set", 1)), int(q["q_no"]))
 
 
 def load_questions() -> list[dict]:
@@ -32,28 +62,88 @@ def load_questions() -> list[dict]:
         if "year" not in meta or "q_no" not in meta:
             continue
         meta["_path"] = rel.as_posix()
+        meta["_file"] = rel.name
         questions.append(meta)
     return questions
 
 
-def link(meta: dict) -> str:
-    return "../" + meta["_path"]
+def plural(n: int, word: str) -> str:
+    return f"{n} {word}" + ("" if n == 1 else "s")
 
 
-def row(meta: dict) -> str:
-    title = f"Q{meta['q_no']}"
-    return (
-        f"| [{title}]({link(meta)}) | {meta.get('subject', '')} | {meta.get('topic', '')} "
-        f"| {meta.get('type', '')} | {meta.get('marks', '')} | {meta.get('status', '')} |"
-    )
+def write(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
 
 
-def main() -> int:
-    questions = load_questions()
-    OUT.mkdir(parents=True, exist_ok=True)
+def build_topic_pages(grouped: dict[str, dict[str, list[dict]]]) -> None:
+    for subject, topics in grouped.items():
+        for topic, qs in topics.items():
+            lines = [
+                f"# {topic_name(topic)}",
+                "",
+                f"{plural(len(qs), 'question')} in {subject_name(subject)}.",
+                "",
+                "| Question | Year | Marks | Type | Status |",
+                "|---|---|---|---|---|",
+            ]
+            for q in sorted(qs, key=question_sort_key):
+                title = q.get("title") or f"{q['year']} {q.get('paper', '')} Q{q['q_no']}"
+                lines.append(
+                    f"| [{title}]({q['_file']}) | {q['year']} | {q.get('marks', '')} "
+                    f"| {q.get('type', '')} | {q.get('status', '')} |"
+                )
+            write(DOCS / subject / topic / "index.md", "\n".join(lines) + "\n")
+
+
+def build_subject_pages(grouped: dict[str, dict[str, list[dict]]]) -> None:
+    for subject, topics in grouped.items():
+        total = sum(len(v) for v in topics.values())
+        lines = [
+            f"# {subject_name(subject)}",
+            "",
+            f"{plural(total, 'question')} across {plural(len(topics), 'topic')}.",
+            "",
+            "| Topic | Questions |",
+            "|---|---|",
+        ]
+        for topic in sorted(topics, key=topic_sort_key):
+            lines.append(f"| [{topic_name(topic)}]({topic}/index.md) | {len(topics[topic])} |")
+        write(DOCS / subject / "index.md", "\n".join(lines) + "\n")
+
+
+def build_home(questions: list[dict], grouped: dict[str, dict[str, list[dict]]]) -> None:
+    years = sorted({int(q["year"]) for q in questions}, reverse=True)
+    if questions:
+        summary = (
+            f"**{len(questions)}** solved questions from GATE "
+            + ", ".join(str(y) for y in years) + "."
+        )
+    else:
+        summary = "No questions yet."
+    blocks = []
+    for subject, topics in grouped.items():
+        blocks += [
+            f"### [{subject_name(subject)}]({subject}/index.md)",
+            "",
+            "| Topic | Questions |",
+            "|---|---|",
+        ]
+        for topic in sorted(topics, key=topic_sort_key):
+            blocks.append(f"| [{topic_name(topic)}]({subject}/{topic}/index.md) | {len(topics[topic])} |")
+        blocks.append("")
+    text = TEMPLATE.read_text(encoding="utf-8")
+    text = text.replace("{{SUMMARY}}", summary).replace("{{TOPICS}}", "\n".join(blocks).strip())
+    write(DOCS / "index.md", text)
+
+
+def build_by_year(questions: list[dict]) -> None:
     by_year: dict[int, list[dict]] = defaultdict(list)
     for q in questions:
         by_year[int(q["year"])].append(q)
+
+    def link(q: dict) -> str:
+        return "../" + q["_path"]
 
     header = "| Question | Subject | Topic | Type | Marks | Status |\n|---|---|---|---|---|---|"
     for year, qs in by_year.items():
@@ -64,23 +154,44 @@ def main() -> int:
         for s in sorted(by_set):
             paper = by_set[s][0].get("paper", f"Set {s}")
             lines += [f"## {paper}", "", header]
-            lines += [row(q) for q in sorted(by_set[s], key=lambda x: int(x["q_no"]))]
+            for q in sorted(by_set[s], key=lambda x: int(x["q_no"])):
+                lines.append(
+                    f"| [Q{q['q_no']}]({link(q)}) | {subject_name(q.get('subject', ''))} "
+                    f"| {topic_name(q.get('topic', ''))} | {q.get('type', '')} "
+                    f"| {q.get('marks', '')} | {q.get('status', '')} |"
+                )
             lines.append("")
-        (OUT / f"{year}.md").write_text("\n".join(lines), encoding="utf-8")
+        write(BY_YEAR / f"{year}.md", "\n".join(lines))
 
     idx = ["# By year", ""]
     if by_year:
         for year in sorted(by_year, reverse=True):
-            idx.append(f"- [GATE {year}]({year}.md): {len(by_year[year])} questions")
+            idx.append(f"- [GATE {year}]({year}.md): {plural(len(by_year[year]), 'question')}")
     else:
         idx.append("No questions yet.")
     flagged = [q for q in questions if q.get("status") != "verified"]
     if flagged:
         idx += ["", "## Needs attention", "", "| Question | Year | Status |", "|---|---|---|"]
-        for q in sorted(flagged, key=lambda x: (int(x["year"]), int(x.get("set", 1)), int(x["q_no"]))):
-            idx.append(f"| [{q['year']} {q.get('paper', '')} Q{q['q_no']}]({link(q)}) | {q['year']} | {q.get('status', '')} |")
-    (OUT / "index.md").write_text("\n".join(idx) + "\n", encoding="utf-8")
-    print(f"Indexed {len(questions)} questions across {len(by_year)} year(s).")
+        for q in sorted(flagged, key=question_sort_key):
+            idx.append(
+                f"| [{q['year']} {q.get('paper', '')} Q{q['q_no']}]({link(q)}) "
+                f"| {q['year']} | {q.get('status', '')} |"
+            )
+    write(BY_YEAR / "index.md", "\n".join(idx) + "\n")
+
+
+def main() -> int:
+    questions = load_questions()
+    grouped: dict[str, dict[str, list[dict]]] = defaultdict(lambda: defaultdict(list))
+    for q in questions:
+        grouped[q.get("subject", "other")][q.get("topic", "other")].append(q)
+
+    build_topic_pages(grouped)
+    build_subject_pages(grouped)
+    build_home(questions, grouped)
+    build_by_year(questions)
+    topics = sum(len(t) for t in grouped.values())
+    print(f"Indexed {len(questions)} questions, {topics} topic page(s).")
     return 0
 
 
