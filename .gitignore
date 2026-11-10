@@ -7,6 +7,9 @@ docs/by-year/
 docs/index.md
 docs/*/index.md
 docs/*/*/index.md
+docs/.nav.yml
+docs/*/.nav.yml
+docs/*/*/.nav.yml
 __pycache__/
 *.pyc
 
