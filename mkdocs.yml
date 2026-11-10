@@ -3,6 +3,10 @@ site_description: Previous-year GATE CS questions, solved by topic.
 site_url: https://saheenusman.github.io/GATE-PYQs/
 repo_url: https://github.com/saheenusman/gate-pyqs
 
+plugins:
+  - search
+  - awesome-nav
+
 theme:
   name: material
   palette:

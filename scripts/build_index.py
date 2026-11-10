@@ -230,6 +230,32 @@ def build_by_year(questions: list[dict]) -> None:
     write(BY_YEAR / "index.md", "\n".join(idx) + "\n")
 
 
+def build_nav(grouped: dict[str, dict[str, list[dict]]], questions: list[dict]) -> None:
+    """Write .nav.yml files (mkdocs-awesome-nav) so the sidebar follows our order, not the alphabet:
+    Home, By year, then subjects in syllabus order, topics in TOPIC_ORDER, questions by year/set/number."""
+    def q(text: str) -> str:
+        return '"' + text.replace('"', '\\"') + '"'
+
+    top = ["nav:", "  - index.md", "  - " + q("By year") + ": by-year"]
+    for subject in grouped:
+        top.append(f"  - {q(subject_name(subject))}: {subject}")
+    write(DOCS / ".nav.yml", "\n".join(top) + "\n")
+
+    for subject, topics in grouped.items():
+        lines = ["nav:", "  - index.md"]
+        for topic in sorted(topics, key=topic_sort_key):
+            lines.append(f"  - {q(topic_name(topic))}: {topic}")
+        write(DOCS / subject / ".nav.yml", "\n".join(lines) + "\n")
+        for topic, qs in topics.items():
+            lines = ["nav:", "  - index.md"]
+            lines += [f"  - {q_['_file']}" for q_ in sorted(qs, key=question_sort_key)]
+            write(DOCS / subject / topic / ".nav.yml", "\n".join(lines) + "\n")
+
+    years = sorted({int(x["year"]) for x in questions}, reverse=True)
+    lines = ["nav:", "  - index.md"] + [f"  - {y}.md" for y in years]
+    write(BY_YEAR / ".nav.yml", "\n".join(lines) + "\n")
+
+
 def main() -> int:
     questions = load_questions()
     grouped: dict[str, dict[str, list[dict]]] = defaultdict(lambda: defaultdict(list))
@@ -241,6 +267,7 @@ def main() -> int:
     build_subject_pages(grouped)
     build_home(questions, grouped)
     build_by_year(questions)
+    build_nav(grouped, questions)
     topics = sum(len(t) for t in grouped.values())
     print(f"Indexed {len(questions)} questions, {topics} topic page(s).")
     return 0
