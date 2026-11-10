@@ -59,7 +59,8 @@ Details-block rules:
 - Do NOT indent the content. Code fences, tables and ` ```mermaid ` blocks sit at column 0.
 - Keep `markdown="1"` (the site needs it) and the `class` (the site styles it; GitHub ignores it).
 - Use bold labels, not headings, inside the blocks.
-- Math: `$...$` and `$$...$$` (both GitHub and the site render these).
+- Math: `$...$` and `$$...$$` (both GitHub and the site render these). Write set braces as
+  `\lbrace` and `\rbrace`, never `\{` and `\}`: GitHub strips that backslash and the braces vanish.
 
 ## Rules
 1. **Official key is the reference.** Compare every answer with the official key.
