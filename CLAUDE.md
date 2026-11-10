@@ -2,7 +2,8 @@
 
 Personal study repo: previous-year GATE CS questions, solved by topic.
 Published as a mobile-friendly site (MkDocs Material + GitHub Pages).
-Current scope: Programming & Data Structures (PDS). Other subjects come later.
+Scope: the entire GATE CS syllabus, done one subject at a time (Programming & Data Structures first;
+see the subject list below). Not just PDS.
 
 ## Layout
 - `raw/<year>/` : source question paper + official answer key PDFs. Git-ignored. NEVER edit, never commit.
@@ -14,7 +15,7 @@ Current scope: Programming & Data Structures (PDS). Other subjects come later.
 - `scripts/home_template.md` : the text of the home page. Edit this (not `docs/index.md`) to change it.
 
 ## Naming
-- Subject folder: `programming-and-data-structures`. Topic folders are kebab-case (see topic list).
+- Subject folders and topic folders are kebab-case, taken from the subject list below.
 - File: `<year>-set<n>-q<no>.md`, for example `2026-set1-q41.md`.
 - Frontmatter `paper` records the official paper name (for 2026: `CS1` = set1, FN, session 3; `CS2` = set2, AN, session 4).
 - Figures: `docs/assets/<year>/set<n>-q<no>[-a|-b].png`.
@@ -79,19 +80,44 @@ Details-block rules:
 7. **Solutions teach.** For MCQ/MSQ, say why each wrong option is wrong. Keep it concise, no filler.
 8. **Status honesty.** Mark `verified` only if the code ran (where applicable) and the answer matches the official key.
 
-## PDS topics
-c-basics-and-pointers, recursion, arrays, stacks-and-queues, linked-lists,
-trees, binary-search-trees, heaps, graphs
+## Subjects and topics
+Subject folder, then its topic folders. Topic slugs are unique across the whole repo.
+Each question goes in exactly one subject; if it spans topics use the main one and add `also: [..]`.
 
-Boundaries: graph algorithms (BFS/DFS, MST, shortest paths), sorting, searching
-and hashing belong to Algorithms (later). Use `graphs` here only for graph
-representation questions.
+- `programming-and-data-structures` (PDS): c-basics-and-pointers, recursion, arrays,
+  stacks-and-queues, linked-lists, trees, binary-search-trees, heaps, graphs
+- `algorithms`: asymptotic-analysis, divide-and-conquer, sorting-and-searching, hashing,
+  greedy, dynamic-programming, graph-algorithms, np-completeness
+- `theory-of-computation`: finite-automata-and-regular-languages, context-free-languages-and-pda,
+  decidability-and-turing-machines
+- `compiler-design`: lexical-analysis, parsing, syntax-directed-translation,
+  intermediate-code-and-optimization
+- `operating-system`: processes-and-threads, cpu-scheduling, synchronization, deadlocks,
+  memory-management, file-systems-and-io
+- `databases`: er-and-relational-model, relational-algebra-and-sql, functional-dependencies-and-normalization,
+  transactions-and-concurrency, indexing-and-file-organization
+- `computer-networks`: layering-and-physical-layer, data-link-layer, ip-and-routing,
+  transport-layer, application-layer
+- `computer-organization`: machine-instructions-and-addressing, number-representation-and-alu,
+  pipelining, cache-and-memory, io-and-storage
+- `digital-logic`: boolean-algebra-and-minimization, combinational-circuits, sequential-circuits
+- `discrete-mathematics`: logic, sets-relations-and-functions, combinatorics, graph-theory, algebraic-structures
+- `linear-algebra`: matrices-and-determinants, systems-and-eigenvalues
+- `calculus`: limits-and-continuity, differentiation-and-optimization, integration
+- `probability-and-statistics`: probability-basics, random-variables-and-distributions
+- `general-aptitude`: verbal, quantitative, analytical-and-spatial
+
+Boundaries: graph representation questions stay in PDS `graphs`; graph algorithms (BFS/DFS, MST,
+shortest paths), sorting, searching and hashing go to `algorithms`. Pure graph-theory facts (matchings,
+colouring, vertex cover as a property) go to `discrete-mathematics/graph-theory`; an algorithmic
+question about them goes to `algorithms`. Digital Logic, Computer Organization and Computer Networks
+syllabi changed for GATE 2027; their topic lists may be adjusted, but ask first.
 
 ## Workflow per paper
-1. Read the paper, list the PDS questions with proposed topics, and wait for my OK.
+1. Read the paper(s), list the questions of ONE subject with proposed topics, and wait for my OK.
 2. Write the question files, run the code, compare with the key.
 3. Rebuild indexes (`python scripts/build_index.py`), run `mkdocs build --strict`.
-4. Commit on a branch named `pyq/<year>`. One commit per topic. Don't merge.
+4. Commit on a branch named `pyq/<year>-<subject>`. One commit per topic. Don't merge.
 5. Final message: counts, plus a list of disputed or unverified questions.
 
 ## Don't

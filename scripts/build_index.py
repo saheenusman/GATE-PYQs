@@ -26,11 +26,61 @@ FM = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 
 SUBJECT_NAMES = {
     "programming-and-data-structures": "Programming & Data Structures",
+    "algorithms": "Algorithms",
+    "theory-of-computation": "Theory of Computation",
+    "compiler-design": "Compiler Design",
+    "operating-system": "Operating System",
+    "databases": "Databases",
+    "computer-networks": "Computer Networks",
+    "computer-organization": "Computer Organization",
+    "digital-logic": "Digital Logic",
+    "discrete-mathematics": "Discrete Mathematics",
+    "linear-algebra": "Linear Algebra",
+    "calculus": "Calculus",
+    "probability-and-statistics": "Probability & Statistics",
+    "general-aptitude": "General Aptitude",
 }
+SUBJECT_ORDER = list(SUBJECT_NAMES)  # syllabus order on the home page
 TOPIC_ORDER = [
+    # programming-and-data-structures
     "c-basics-and-pointers", "recursion", "arrays", "stacks-and-queues",
     "linked-lists", "trees", "binary-search-trees", "heaps", "graphs",
+    # algorithms
+    "asymptotic-analysis", "divide-and-conquer", "sorting-and-searching", "hashing",
+    "greedy", "dynamic-programming", "graph-algorithms", "np-completeness",
+    # theory-of-computation
+    "finite-automata-and-regular-languages", "context-free-languages-and-pda",
+    "decidability-and-turing-machines",
+    # compiler-design
+    "lexical-analysis", "parsing", "syntax-directed-translation", "intermediate-code-and-optimization",
+    # operating-system
+    "processes-and-threads", "cpu-scheduling", "synchronization", "deadlocks",
+    "memory-management", "file-systems-and-io",
+    # databases
+    "er-and-relational-model", "relational-algebra-and-sql",
+    "functional-dependencies-and-normalization", "transactions-and-concurrency",
+    "indexing-and-file-organization",
+    # computer-networks
+    "layering-and-physical-layer", "data-link-layer", "ip-and-routing",
+    "transport-layer", "application-layer",
+    # computer-organization
+    "machine-instructions-and-addressing", "number-representation-and-alu",
+    "pipelining", "cache-and-memory", "io-and-storage",
+    # digital-logic
+    "boolean-algebra-and-minimization", "combinational-circuits", "sequential-circuits",
+    # discrete-mathematics
+    "logic", "sets-relations-and-functions", "combinatorics", "graph-theory", "algebraic-structures",
+    # linear-algebra, calculus, probability-and-statistics
+    "matrices-and-determinants", "systems-and-eigenvalues",
+    "limits-and-continuity", "differentiation-and-optimization", "integration",
+    "probability-basics", "random-variables-and-distributions",
+    # general-aptitude
+    "verbal", "quantitative", "analytical-and-spatial",
 ]
+
+
+def subject_sort_key(slug: str) -> tuple[int, str]:
+    return (SUBJECT_ORDER.index(slug), slug) if slug in SUBJECT_ORDER else (len(SUBJECT_ORDER), slug)
 
 
 def subject_name(slug: str) -> str:
@@ -186,6 +236,7 @@ def main() -> int:
     for q in questions:
         grouped[q.get("subject", "other")][q.get("topic", "other")].append(q)
 
+    grouped = {k: grouped[k] for k in sorted(grouped, key=subject_sort_key)}
     build_topic_pages(grouped)
     build_subject_pages(grouped)
     build_home(questions, grouped)
