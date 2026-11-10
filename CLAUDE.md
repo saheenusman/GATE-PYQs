@@ -37,13 +37,30 @@ official_answer: "B"
 status: verified    # verified | disputed | unverified
 ---
 ```
-Body, in this order:
-1. `## Question` : the text, then the figure if any, then the options. Always visible.
-2. `??? success "Answer"` : collapsible block with only the final answer.
-3. `??? info "Solution"` : separate collapsible block: step-by-step working, with a trace table or
-   diagram where it helps, ending with a bold `**Key idea:**` line (one or two lines naming the concept tested).
-   Content inside a collapsible block is indented 4 spaces (including code and mermaid fences).
-   Use bold labels, not headings, inside collapsibles.
+Body, in this order. The format must render on BOTH GitHub and the MkDocs site, so use plain
+Markdown plus HTML `<details>`, never MkDocs-only syntax such as `??? success` admonitions.
+1. `# <title>` : same text as the frontmatter `title`.
+2. `## Question` : the text, then the figure if any, then the options. Always visible.
+3. Answer block: only the final answer.
+   ```html
+   <details class="success" markdown="1">
+   <summary>Answer</summary>
+
+   **B**
+
+   </details>
+   ```
+4. Solution block, same shape with `class="info"` and `<summary>Solution</summary>`: step-by-step
+   working, with a trace table or diagram where it helps, ending with a bold `**Key idea:**` line
+   (one or two lines naming the concept tested).
+
+Details-block rules:
+- Keep a blank line after `</summary>` and before `</details>`, or GitHub will not render the Markdown inside.
+- Do NOT indent the content. Code fences, tables and ` ```mermaid ` blocks sit at column 0.
+- Keep `markdown="1"` (the site needs it) and the `class` (the site styles it; GitHub ignores it).
+- Use bold labels, not headings, inside the blocks.
+- Math: `$...$` and `$$...$$` (both GitHub and the site render these). Write set braces as
+  `\lbrace` and `\rbrace`, never `\{` and `\}`: GitHub strips that backslash and the braces vanish.
 
 ## Rules
 1. **Official key is the reference.** Compare every answer with the official key.
