@@ -35,10 +35,12 @@ status: verified    # verified | disputed | unverified
 ---
 ```
 Body, in this order:
-1. `## Question` : the text, then the figure if any, then the options.
-2. `## Answer` : inside `??? success "Show answer"` (MkDocs collapsible block).
-3. `## Solution` : step-by-step, with a trace table or diagram where it helps.
-4. `## Key idea` : one or two lines naming the concept tested.
+1. `## Question` : the text, then the figure if any, then the options. Always visible.
+2. `??? success "Answer"` : collapsible block with only the final answer.
+3. `??? info "Solution"` : separate collapsible block: step-by-step working, with a trace table or
+   diagram where it helps, ending with a bold `**Key idea:**` line (one or two lines naming the concept tested).
+   Content inside a collapsible block is indented 4 spaces (including code and mermaid fences).
+   Use bold labels, not headings, inside collapsibles.
 
 ## Rules
 1. **Official key is the reference.** Compare every answer with the official key.
