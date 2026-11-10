@@ -1,0 +1,12 @@
+# Source PDFs (question papers and answer keys): never commit
+raw/
+
+# Generated
+site/
+docs/by-year/
+__pycache__/
+*.pyc
+
+# Scratch
+scratch/
+*.out

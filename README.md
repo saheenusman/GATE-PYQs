@@ -1,1 +1,8 @@
 # GATE-PYQs
+
+GATE CS previous-year questions, solved topic by topic, with diagrams and
+answers checked against the official keys.
+
+- Conventions and workflow: see [`CLAUDE.md`](CLAUDE.md)
+- Local preview: `pip install -r requirements.txt && python scripts/build_index.py && mkdocs serve`
+- Source PDFs go in `raw/<year>/` (git-ignored, not published)
