@@ -1,17 +1,136 @@
 # Out of syllabus
 
-The current GATE CS syllabus has no software engineering section. These 8 questions from GATE 2015 are on that subject (testing, metrics, requirements, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
+The current GATE CS syllabus has no software engineering section. These 11 questions from GATE 2014 and 2015 are on that subject (process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
 
 | Question | Theme | Official key |
 |---|---|---|
-| CS1 Q16 | Software testing and metrics | C |
-| CS1 Q38 | Software testing and metrics | 5 |
-| CS2 Q25 | Software process and estimation | C |
-| CS2 Q29 | Software process and estimation | A |
-| CS2 Q64 | Software testing and metrics | C |
-| CS3 Q17 | Software process and estimation | 612 to 613 |
-| CS3 Q33 | Software testing and metrics | 28 |
-| CS3 Q58 | Software testing and metrics | A |
+| 2014 CS1 Q18 | Software process models | B |
+| 2014 CS2 Q19 | Requirements engineering | C |
+| 2014 CS3 Q19 | Modular design (cohesion and coupling) | B |
+| 2015 CS1 Q16 | Software testing and metrics | C |
+| 2015 CS1 Q38 | Software testing and metrics | 5 |
+| 2015 CS2 Q25 | Software process and estimation | C |
+| 2015 CS2 Q29 | Software process and estimation | A |
+| 2015 CS2 Q64 | Software testing and metrics | C |
+| 2015 CS3 Q17 | Software process and estimation | 612 to 613 |
+| 2015 CS3 Q33 | Software testing and metrics | 28 |
+| 2015 CS3 Q58 | Software testing and metrics | A |
+
+## 2014 CS1 Q18: Match process models with features
+
+*CS1 · 1 mark · MCQ · official key: B · status: verified*
+
+**Question**
+
+Match the following:
+
+| Model | Feature |
+|---|---|
+| 1) Waterfall model | a) Specifications can be developed incrementally |
+| 2) Evolutionary model | b) Requirements compromises are inevitable |
+| 3) Component-based software engineering | c) Explicit recognition of risk |
+| 4) Spiral development | d) Inflexible partitioning of the project into stages |
+
+- (A) 1-a, 2-b, 3-c, 4-d
+- (B) 1-d, 2-a, 3-b, 4-c
+- (C) 1-d, 2-b, 3-a, 4-c
+- (D) 1-c, 2-a, 3-b, 4-d
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**B**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+This is textbook software engineering (Sommerville).
+
+- **Waterfall** splits the project into fixed stages: **d**.
+- **Evolutionary** development builds specification and software together in versions: **a**.
+- **Component-based** development reuses existing components, so requirements must be compromised to fit them: **b**.
+- **Spiral** adds risk analysis to each loop: **c**.
+
+That is 1-d, 2-a, 3-b, 4-c.
+
+- (A) gives Waterfall incremental specifications, the opposite of its fixed stages.
+- (C) swaps Evolutionary and Component-based.
+- (D) gives Waterfall risk recognition. Waterfall has none.
+
+**Key idea:** waterfall rigid, evolutionary incremental, component-based compromises, spiral risk.
+
+</details>
+
+## 2014 CS2 Q19: Which statement about requirements is TRUE
+
+*CS2 · 1 mark · MCQ · official key: C · status: verified*
+
+**Question**
+
+Which one of the following is TRUE?
+
+- (A) The requirements document also describes how the requirements that are listed in the document are implemented efficiently.
+- (B) Consistency and completeness of functional requirements are always achieved in practice.
+- (C) Prototyping is a method of requirements validation.
+- (D) Requirements review is carried out to find the errors in system design.
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**C**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+**Prototyping** lets users try a working model, which checks that the requirements describe what they want. It is a standard requirements-validation technique, alongside reviews and test-case generation.
+
+- (A) a requirements document says *what* the system must do, not *how* to implement it. That belongs to design.
+- (B) consistency and completeness are goals, and in practice they are hard to reach in full.
+- (D) a requirements review looks for errors in the *requirements*, not in the design.
+
+**Key idea:** requirements validation methods are reviews, prototyping and test-case generation.
+
+</details>
+
+## 2014 CS3 Q19: Desirable cohesion and coupling in modular design
+
+*CS3 · 1 mark · MCQ · official key: B · status: verified*
+
+**Question**
+
+In the context of modular software design, which one of the following combinations is desirable?
+
+- (A) High cohesion and high coupling
+- (B) High cohesion and low coupling
+- (C) Low cohesion and high coupling
+- (D) Low cohesion and low coupling
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**B**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+- **Cohesion** is how closely the elements inside one module belong together (a single, focused purpose). Higher is better.
+- **Coupling** is how strongly one module depends on others. Lower is better, since a change in one module then affects fewer others.
+
+So the desirable combination is **high cohesion, low coupling**: **B**.
+
+- (A) high coupling makes modules hard to change or reuse.
+- (C) is the worst combination.
+- (D) low cohesion means each module does unrelated things.
+
+**Key idea:** good modular design is high cohesion within modules and low coupling between modules.
+
+</details>
 
 ## 2015 CS1 Q16: Matching testing techniques with their categories
 
