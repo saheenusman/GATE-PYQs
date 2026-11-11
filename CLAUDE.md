@@ -12,6 +12,8 @@ see the subject list below). Not just PDS.
 - `scripts/build_index.py` : builds navigation pages from question frontmatter. These are GENERATED and
   git-ignored, never edit them by hand: `docs/index.md`, `docs/<subject>/index.md`,
   `docs/<subject>/<topic>/index.md`, `docs/by-year/`.
+- `docs/out-of-syllabus.md` : hand-written note page (NOT generated) for old questions on topics the current
+  syllabus no longer has (e.g. software engineering). Not in any subject or topic folder.
 - `scripts/home_template.md` : the text of the home page. Edit this (not `docs/index.md`) to change it.
 
 ## Naming
@@ -106,8 +108,6 @@ Each question goes in exactly one subject; if it spans topics use the main one a
 - `calculus`: limits-and-continuity, differentiation-and-optimization, integration
 - `probability-and-statistics`: probability-basics, random-variables-and-distributions
 - `general-aptitude`: verbal, quantitative, analytical-and-spatial
-- `software-engineering`: process-and-estimation, testing-and-metrics (added for older papers that still
-  had software-engineering questions; listed last, after general-aptitude)
 
 Boundaries: graph representation questions stay in PDS `graphs`; graph algorithms (BFS/DFS, MST,
 shortest paths), sorting, searching and hashing go to `algorithms`. Pure graph-theory facts (matchings,

@@ -39,7 +39,6 @@ SUBJECT_NAMES = {
     "calculus": "Calculus",
     "probability-and-statistics": "Probability & Statistics",
     "general-aptitude": "General Aptitude",
-    "software-engineering": "Software Engineering",
 }
 SUBJECT_ORDER = list(SUBJECT_NAMES)  # syllabus order on the home page
 TOPIC_ORDER = [
@@ -77,8 +76,6 @@ TOPIC_ORDER = [
     "probability-basics", "random-variables-and-distributions",
     # general-aptitude
     "verbal", "quantitative", "analytical-and-spatial",
-    # software-engineering
-    "process-and-estimation", "testing-and-metrics",
 ]
 
 
@@ -242,6 +239,7 @@ def build_nav(grouped: dict[str, dict[str, list[dict]]], questions: list[dict]) 
     top = ["nav:", "  - index.md", "  - " + q("By year") + ": by-year"]
     for subject in grouped:
         top.append(f"  - {q(subject_name(subject))}: {subject}")
+    top.append("  - " + q("Out of syllabus") + ": out-of-syllabus.md")  # hand-written note page
     write(DOCS / ".nav.yml", "\n".join(top) + "\n")
 
     for subject, topics in grouped.items():
