@@ -1,9 +1,11 @@
 # Out of syllabus
 
-The current GATE CS syllabus has no software engineering section. These 11 questions from GATE 2014 and 2015 are on that subject (process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
+The current GATE CS syllabus has no software engineering section. These 13 questions from GATE 2013, 2014 and 2015 are on that subject (service-oriented computing, process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
 
 | Question | Theme | Official key |
 |---|---|---|
+| 2013 CS Q11 | Service-oriented computing and web services | C |
+| 2013 CS Q38 | Modular design (cohesion and coupling) | A |
 | 2014 CS1 Q18 | Software process models | B |
 | 2014 CS2 Q19 | Requirements engineering | C |
 | 2014 CS3 Q19 | Modular design (cohesion and coupling) | B |
@@ -15,6 +17,96 @@ The current GATE CS syllabus has no software engineering section. These 11 quest
 | 2015 CS3 Q17 | Software process and estimation | 612 to 613 |
 | 2015 CS3 Q33 | Software testing and metrics | 28 |
 | 2015 CS3 Q58 | Software testing and metrics | A |
+
+## 2013 CS Q11: Service-oriented computing matching
+
+*CS · 1 mark · MCQ · official key: C · status: verified*
+
+**Question**
+
+Match the problem domains in GROUP I with the solution technologies in GROUP II.
+
+| GROUP I | GROUP II |
+|---|---|
+| (P) Service oriented computing | (1) Interoperability |
+| (Q) Heterogeneous communicating systems | (2) BPMN |
+| (R) Information representation | (3) Publish-find-bind |
+| (S) Process description | (4) XML |
+
+- (A) P-1, Q-2, R-3, S-4
+- (B) P-3, Q-4, R-2, S-1
+- (C) P-3, Q-1, R-4, S-2
+- (D) P-4, Q-3, R-2, S-1
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**C**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+- **P - 3:** service-oriented computing uses the publish-find-bind model (providers publish, requesters find, then bind).
+- **Q - 1:** heterogeneous communicating systems need interoperability.
+- **R - 4:** information representation is done with XML.
+- **S - 2:** process description is done with BPMN (Business Process Model and Notation).
+
+Only (C) has all four pairs.
+
+**Key idea:** SOA = publish-find-bind; XML = data representation; BPMN = process modelling.
+
+</details>
+
+## 2013 CS Q38: Cohesion and coupling after moving a method
+
+*CS · 2 marks · MCQ · official key: A · status: verified*
+
+**Question**
+
+The following figure represents access graphs of two modules M1 and M2. The filled circles represent methods and the unfilled circles represent attributes. If method `m` is moved to module M2 keeping the attributes where they are, what can we say about the average cohesion and coupling between modules in the system of two modules?
+
+![Two boxes, Module M1 and Module M2. Each has a row of unfilled attribute circles above a row of filled method circles, with arrows from methods to the attributes they access. M1 has four methods and four attributes; its fourth method, m, also has two arrows crossing into M2's attributes. M2 has three methods and four attributes.](assets/2013/set1-q38.png)
+
+- (A) There is no change.
+- (B) Average cohesion goes up but coupling is reduced.
+- (C) Average cohesion goes down and coupling also reduces.
+- (D) Average cohesion and coupling increase.
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**A**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+**Convention used.** For a module, *cohesion* = (method-to-attribute edges inside the module) / (methods $\times$ attributes in the module). *Coupling* = number of edges that cross between modules.
+
+**Edges read from the figure.**
+
+- Methods other than `m`: 2 attribute edges each, all inside their own module.
+- `m` has 4 edges: 2 to M1's attributes and 2 to M2's attributes.
+
+| | M1 cohesion | M2 cohesion | Average | Cross edges |
+|---|---|---|---|---|
+| Before | $8/16 = 1/2$ | $6/12 = 1/2$ | $1/2$ | 2 (`m` to M2) |
+| After (`m` in M2) | $6/12 = 1/2$ | $8/16 = 1/2$ | $1/2$ | 2 (`m` to M1) |
+
+Moving `m` swaps which two of its edges are internal and which two cross. Both cohesion and coupling are unchanged: (A).
+
+**Why the others fail:** (B), (C), (D) each claim a change, but both averages and the cross-edge count are the same before and after.
+
+**Note.** The question gives no formula; the definitions above are an **assumption** (they reproduce the official key). Edge targets were read from the figure by eye.
+
+**Code check:** a short script on the edge list gave the table above.
+
+**Key idea:** if the moved method's internal and external edges are equal in number, moving it changes neither average cohesion nor coupling.
+
+</details>
 
 ## 2014 CS1 Q18: Match process models with features
 
