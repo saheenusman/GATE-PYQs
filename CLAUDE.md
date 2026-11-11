@@ -12,6 +12,8 @@ see the subject list below). Not just PDS.
 - `scripts/build_index.py` : builds navigation pages from question frontmatter. These are GENERATED and
   git-ignored, never edit them by hand: `docs/index.md`, `docs/<subject>/index.md`,
   `docs/<subject>/<topic>/index.md`, `docs/by-year/`.
+- `docs/out-of-syllabus.md` : hand-written note page (NOT generated) for old questions on topics the current
+  syllabus no longer has (e.g. software engineering). Not in any subject or topic folder.
 - `scripts/home_template.md` : the text of the home page. Edit this (not `docs/index.md`) to change it.
 
 ## Naming

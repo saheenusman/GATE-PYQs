@@ -239,6 +239,7 @@ def build_nav(grouped: dict[str, dict[str, list[dict]]], questions: list[dict]) 
     top = ["nav:", "  - index.md", "  - " + q("By year") + ": by-year"]
     for subject in grouped:
         top.append(f"  - {q(subject_name(subject))}: {subject}")
+    top.append("  - " + q("Out of syllabus") + ": out-of-syllabus.md")  # hand-written note page
     write(DOCS / ".nav.yml", "\n".join(top) + "\n")
 
     for subject, topics in grouped.items():

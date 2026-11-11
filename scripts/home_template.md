@@ -23,4 +23,4 @@ Each question has a status:
 
 {{TOPICS}}
 
-More subjects (Algorithms, Operating Systems and others) will be added later.
+Old questions on topics the current syllabus no longer covers (such as software engineering) are collected on the [Out of syllabus](out-of-syllabus.md) page.
