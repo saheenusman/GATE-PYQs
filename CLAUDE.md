@@ -106,6 +106,8 @@ Each question goes in exactly one subject; if it spans topics use the main one a
 - `calculus`: limits-and-continuity, differentiation-and-optimization, integration
 - `probability-and-statistics`: probability-basics, random-variables-and-distributions
 - `general-aptitude`: verbal, quantitative, analytical-and-spatial
+- `software-engineering`: process-and-estimation, testing-and-metrics (added for older papers that still
+  had software-engineering questions; listed last, after general-aptitude)
 
 Boundaries: graph representation questions stay in PDS `graphs`; graph algorithms (BFS/DFS, MST,
 shortest paths), sorting, searching and hashing go to `algorithms`. Pure graph-theory facts (matchings,

@@ -39,6 +39,7 @@ SUBJECT_NAMES = {
     "calculus": "Calculus",
     "probability-and-statistics": "Probability & Statistics",
     "general-aptitude": "General Aptitude",
+    "software-engineering": "Software Engineering",
 }
 SUBJECT_ORDER = list(SUBJECT_NAMES)  # syllabus order on the home page
 TOPIC_ORDER = [
@@ -76,6 +77,8 @@ TOPIC_ORDER = [
     "probability-basics", "random-variables-and-distributions",
     # general-aptitude
     "verbal", "quantitative", "analytical-and-spatial",
+    # software-engineering
+    "process-and-estimation", "testing-and-metrics",
 ]
 
 
