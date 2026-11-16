@@ -1,9 +1,10 @@
 # Out of syllabus
 
-The current GATE CS syllabus has no software engineering section, no numerical methods topic and no HTML markup topic. These 28 questions from GATE 2008, 2009, 2010, 2011, 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation, data flow diagrams, HTML tables). They are kept here for completeness, with answers checked against the official key where the key gives one, but they are **not** part of any topic page or the by-year lists.
+The current GATE CS syllabus has no software engineering section, no numerical methods topic and no HTML markup topic. These 29 questions from GATE 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation, data flow diagrams, HTML tables). They are kept here for completeness, with answers checked against the official key where the key gives one (GATE 2007 had no official key, so its entry is my own answer), but they are **not** part of any topic page or the by-year lists.
 
 | Question | Theme | Official key |
 |---|---|---|
+| 2007 CS Q28 | Newton-Raphson iteration (numerical methods) | none (no official key released) |
 | 2008 CS Q21 | Trapezoidal rule (numerical integration error bound) | A |
 | 2008 CS Q22 | Newton-Raphson iteration (numerical methods) | C |
 | 2009 CS Q19 | Modular design (types of coupling) | A |
@@ -32,6 +33,54 @@ The current GATE CS syllabus has no software engineering section, no numerical m
 | 2015 CS3 Q17 | Software process and estimation | 612 to 613 |
 | 2015 CS3 Q33 | Software testing and metrics | 28 |
 | 2015 CS3 Q58 | Software testing and metrics | A |
+
+## 2007 CS Q28: Limit of the Newton-Raphson series x(n+1) = x(n)/2 + 9/(8 x(n))
+
+*CS · 2 marks · MCQ · official key: none (no official key released) · status: unverified*
+
+**Question**
+
+Consider the series $x_{n+1} = \dfrac{x_n}{2} + \dfrac{9}{8x_n}$, $x_0 = 0.5$, obtained from the Newton-Raphson method. The series converges to
+
+- (A) 1.5
+- (B) $\sqrt{2}$
+- (C) 1.6
+- (D) 1.4
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**A**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+If $x_n \to L \neq 0$, then $L = \dfrac{L}{2} + \dfrac{9}{8L}$, so $\dfrac{L}{2} = \dfrac{9}{8L}$ and $L^2 = \dfrac{9}{4}$, giving $L = \pm\dfrac{3}{2}$.
+
+Equivalently, this is Newton-Raphson for $f(x) = x^2 - \tfrac{9}{4}$, i.e. $x_{n+1} = \tfrac12\left(x_n + \tfrac{9/4}{x_n}\right)$. Starting from $x_0 = 0.5 > 0$, every later term is positive, so the limit is the positive root $\mathbf{1.5}$: (A).
+
+| $n$ | $x_n$ |
+|---|---|
+| 0 | 0.5 |
+| 1 | 2.5 |
+| 2 | 1.7 |
+| 3 | 1.5118 |
+| 4 | 1.50005 |
+
+- (B) $\sqrt{2} \approx 1.414$ is the limit of a different recurrence, $\tfrac12\left(x_n + 2/x_n\right)$, not of this one.
+- (C) 1.6 and (D) 1.4 are not fixed points of the recurrence ($1.6^2 = 2.56 \neq 2.25$ and $1.4^2 = 1.96 \neq 2.25$).
+
+**Code check:** iterating from $x_0 = 0.5$ gives $0.5,\ 2.5,\ 1.7,\ 1.511765,\ 1.500046,\ 1.5,\ \dots$; sixty iterations give exactly $1.5$.
+
+**Classification note:** this is the numerical-methods (root finding) topic, which is not in the current syllabus, so it is filed here beside the 2008, 2010 and 2012 questions.
+
+**Status note:** `unverified`. GATE 2007 had no official answer key, so there is nothing to compare against. This is my own answer.
+
+**Key idea:** the limit of a Newton-Raphson iteration is a root of the function, and the starting point $0.5 > 0$ selects the positive root $3/2$.
+
+</details>
 
 ## 2008 CS Q21: Subintervals needed for the trapezoidal rule
 
