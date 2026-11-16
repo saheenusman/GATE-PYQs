@@ -1,9 +1,13 @@
 # Out of syllabus
 
-The current GATE CS syllabus has no software engineering section and no numerical methods topic. These 14 questions from GATE 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
+The current GATE CS syllabus has no software engineering section and no numerical methods topic. These 18 questions from GATE 2011, 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
 
 | Question | Theme | Official key |
 |---|---|---|
+| 2011 CS Q5 | Software cost estimation (break-even size) | B |
+| 2011 CS Q7 | Basic COCOMO effort estimate | A |
+| 2011 CS Q10 | Contents of a software requirement specification | D |
+| 2011 CS Q47 | Black box testing (equivalence class partitioning) | C |
 | 2012 CS Q28 | Bisection method (numerical methods) | B |
 | 2013 CS Q11 | Service-oriented computing and web services | C |
 | 2013 CS Q38 | Modular design (cohesion and coupling) | A |
@@ -19,6 +23,197 @@ The current GATE CS syllabus has no software engineering section and no numerica
 | 2015 CS3 Q33 | Software testing and metrics | 28 |
 | 2015 CS3 Q58 | Software testing and metrics | A |
 
+## 2011 CS Q5: Break-even size for two programming languages
+
+*CS · 1 mark · MCQ · official key: B · status: verified*
+
+**Question**
+
+A company needs to develop a strategy for software product development for which it has a choice of two programming languages L1 and L2. The number of lines of code (LOC) developed using L2 is estimated to be twice the LOC developed with L1. The product will have to be maintained for five years. Various parameters for the company are given in the table below.
+
+| Parameter | Language L1 | Language L2 |
+|---|---|---|
+| Man years needed for development | LOC/10000 | LOC/10000 |
+| Development cost per man year | ₹ 10,00,000 | ₹ 7,50,000 |
+| Maintenance time | 5 years | 5 years |
+| Cost of maintenance per year | ₹ 1,00,000 | ₹ 50,000 |
+
+Total cost of the project includes cost of development and maintenance. What is the LOC for L1 for which the cost of the project using L1 is equal to the cost of the project using L2?
+
+- (A) 4000
+- (B) 5000
+- (C) 4333
+- (D) 4667
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**B**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+Let L1 need $x$ lines of code, so L2 needs $2x$.
+
+- **L1:** development $\dfrac{x}{10000} \times 10{,}00{,}000 = 100x$; maintenance $5 \times 1{,}00{,}000 = 5{,}00{,}000$. Total $100x + 5{,}00{,}000$.
+- **L2:** development $\dfrac{2x}{10000} \times 7{,}50{,}000 = 150x$; maintenance $5 \times 50{,}000 = 2{,}50{,}000$. Total $150x + 2{,}50{,}000$.
+
+Setting them equal: $100x + 5{,}00{,}000 = 150x + 2{,}50{,}000$, so $50x = 2{,}50{,}000$ and $x = 5000$: (B). Both projects then cost ₹ 10,00,000.
+
+For the other options the costs differ: at $x = 4000$, L1 costs ₹ 9,00,000 and L2 ₹ 8,50,000; at $4333$, ₹ 9,33,300 and ₹ 8,99,950; at $4667$, ₹ 9,66,700 and ₹ 9,50,050.
+
+**Code check:** the two total costs were computed for each option; only $x = 5000$ gave equal totals.
+
+**Key idea:** equate the two total costs (development + maintenance) and solve for the size.
+
+</details>
+## 2011 CS Q7: Basic COCOMO effort for 40000 lines of code
+
+*CS · 1 mark · MCQ · official key: A · status: verified*
+
+**Question**
+
+A company needs to develop digital signal processing software for one of its newest inventions. The software is expected to have 40000 lines of code. The company needs to determine the effort in person-months needed to develop this software using the basic COCOMO model. The multiplicative factor for this model is given as 2.8 for the software development on embedded systems, while the exponentiation factor is given as 1.20. What is the estimated effort in person-months?
+
+- (A) 234.25
+- (B) 932.50
+- (C) 287.80
+- (D) 122.40
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**A**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+Basic COCOMO gives the effort as $E = a \cdot (\text{KLOC})^b$ person-months, with the size in thousands of lines. Here $a = 2.8$, $b = 1.20$ and $\text{KLOC} = 40$.
+
+$$E = 2.8 \times 40^{1.20} = 2.8 \times 83.65 \approx 234.2$$
+
+The nearest option is $234.25$: (A). The small difference from $234.22$ is rounding of $40^{1.20}$.
+
+- (B) $932.50$, (C) $287.80$ and (D) $122.40$ are far from $234.2$.
+
+**Code check:** $2.8 \times 40^{1.2} = 234.22$.
+
+**Key idea:** basic COCOMO: effort = a x (size in KLOC)^b.
+
+</details>
+## 2011 CS Q10: What a good SRS should not contain
+
+*CS · 1 mark · MCQ · official key: D · status: verified*
+
+**Question**
+
+Which one of the following is **NOT** desired in a good Software Requirement Specifications (SRS) document?
+
+- (A) Functional Requirements
+- (B) Non-Functional Requirements
+- (C) Goals of Implementation
+- (D) Algorithms for Software Implementation
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**D**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+An SRS states **what** the system must do, not **how** it will be built.
+
+- (A) functional requirements are the core of an SRS.
+- (B) non-functional requirements (performance, security, reliability) are also required.
+- (C) "goals of implementation" states goals and constraints, not algorithms, so it is acceptable in an SRS (it does not say *how* to build the system).
+- (D) algorithms for implementation belong to the design phase, so they are **not** wanted in an SRS: (D).
+
+**Key idea:** an SRS fixes the requirements (what), and leaves design and algorithms (how) to later phases.
+
+</details>
+## 2011 CS Q47: Non-redundant tests by equivalence class partitioning
+
+*CS · 2 marks · MCQ · official key: C · status: verified*
+
+**Question**
+
+The following is the comment written for a C function.
+
+```c
+/* This function computes the roots of a quadratic equation
+   a.x^2 + b.x + c = 0. The function stores two real roots
+   in *root1 and *root2 and returns the status of validity
+   of roots. It handles four different kinds of cases.
+   (i) When coefficient a is zero irrespective of discriminant
+   (ii) When discriminant is positive
+   (iii) When discriminant is zero
+   (iv) When discriminant is negative.
+   Only in case (ii) and (iii), the stored roots are valid.
+   Otherwise 0 is stored in the roots. The function returns
+   0 when the roots are valid and -1 otherwise.
+   The function also ensures root1 >= root2.
+   int get_QuadRoots(float a, float b, float c,
+                     float *root1, float *root2);
+*/
+```
+
+A software test engineer is assigned the job of doing black box testing. He comes up with the following test cases, many of which are redundant.
+
+| Test Case | a | b | c | root1 | root2 | Return Value |
+|---|---|---|---|---|---|---|
+| T1 | 0.0 | 0.0 | 7.0 | 0.0 | 0.0 | -1 |
+| T2 | 0.0 | 1.0 | 3.0 | 0.0 | 0.0 | -1 |
+| T3 | 1.0 | 2.0 | 1.0 | -1.0 | -1.0 | 0 |
+| T4 | 4.0 | -12.0 | 9.0 | 1.5 | 1.5 | 0 |
+| T5 | 1.0 | -2.0 | -3.0 | 3.0 | -1.0 | 0 |
+| T6 | 1.0 | 1.0 | 4.0 | 0.0 | 0.0 | -1 |
+
+Which one of the following options provide the set of non-redundant tests using equivalence class partitioning approach from input perspective for black box testing?
+
+- (A) T1, T2, T3, T6
+- (B) T1, T3, T4, T5
+- (C) T2, T4, T5, T6
+- (D) T2, T3, T4, T5
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**C**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+From the **input** side, the comment defines four classes: (i) $a = 0$, (ii) discriminant $b^2 - 4ac > 0$, (iii) discriminant $= 0$, (iv) discriminant $< 0$. A non-redundant set has exactly one test from each class.
+
+| Test | $a$ | Discriminant | Class |
+|---|---|---|---|
+| T1 | $0$ | (ignored) | (i) |
+| T2 | $0$ | (ignored) | (i) |
+| T3 | $1$ | $4 - 4 = 0$ | (iii) |
+| T4 | $4$ | $144 - 144 = 0$ | (iii) |
+| T5 | $1$ | $4 + 12 = 16 > 0$ | (ii) |
+| T6 | $1$ | $1 - 16 = -15 < 0$ | (iv) |
+
+T1 and T2 are redundant with each other, and so are T3 and T4. Picking one from each class gives, for example, T2, T4, T5, T6: (C).
+
+- (A) has T1 and T2 (same class) and no test with a positive discriminant.
+- (B) has T3 and T4 (same class) and no test with a negative discriminant.
+- (D) has T3 and T4 (same class) and no test with a negative discriminant.
+
+**Code check:** the discriminants of the six tests were computed: $a = 0$ for T1 and T2, and $0, 0, 16, -15$ for T3 to T6.
+
+**Key idea:** equivalence partitioning keeps one test per input class and drops the rest.
+
+</details>
 ## 2012 CS Q28: Iterations of the bisection method
 
 *CS · 2 marks · MCQ · official key: B · status: verified*
