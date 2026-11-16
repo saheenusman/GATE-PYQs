@@ -1,9 +1,13 @@
 # Out of syllabus
 
-The current GATE CS syllabus has no software engineering section and no numerical methods topic. These 22 questions from GATE 2010, 2011, 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
+The current GATE CS syllabus has no software engineering section, no numerical methods topic and no HTML markup topic. These 26 questions from GATE 2009, 2010, 2011, 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation, data flow diagrams, HTML tables). They are kept here for completeness, with answers checked against the official key where the key gives one, but they are **not** part of any topic page or the by-year lists.
 
 | Question | Theme | Official key |
 |---|---|---|
+| 2009 CS Q19 | Modular design (types of coupling) | A |
+| 2009 CS Q20 | HTML tables (rowspan and colspan) | none (blank in key) |
+| 2009 CS Q49 | Data flow diagrams | C |
+| 2009 CS Q50 | Cyclomatic complexity | B |
 | 2010 CS Q2 | Newton-Raphson method (numerical methods) | D |
 | 2010 CS Q21 | Cyclomatic complexity of modules in sequence | A |
 | 2010 CS Q22 | Software life cycle activities | B |
@@ -26,6 +30,220 @@ The current GATE CS syllabus has no software engineering section and no numerica
 | 2015 CS3 Q17 | Software process and estimation | 612 to 613 |
 | 2015 CS3 Q33 | Software testing and metrics | 28 |
 | 2015 CS3 Q58 | Software testing and metrics | A |
+
+## 2009 CS Q19: Ranking types of coupling from strongest to weakest
+
+*CS · 1 mark · MCQ · official key: A · status: verified*
+
+**Question**
+
+The coupling between different modules of a software is categorized as follows:
+
+- I. Content coupling
+- II. Common coupling
+- III. Control coupling
+- IV. Stamp coupling
+- V. Data coupling
+
+Coupling between modules can be ranked in the order of strongest (least desirable) to weakest (most desirable) as follows:
+
+- (A) I - II - III - IV - V
+- (B) V - IV - III - II - I
+- (C) I - III - V - II - IV
+- (D) IV - II - V - III - I
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**A**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+From strongest to weakest, the standard ranking is:
+
+1. **Content coupling:** one module uses or changes the inside (code or data) of another.
+2. **Common coupling:** modules share global data.
+3. **Control coupling:** one module passes a flag that controls the logic of another.
+4. **Stamp coupling:** modules pass a whole data structure although only part of it is needed.
+5. **Data coupling:** modules pass only the data items that are needed, as parameters.
+
+That is I - II - III - IV - V: (A).
+
+- (B) is exactly the reverse order, weakest to strongest.
+- (C) and (D) put common, control or stamp coupling in the wrong places; for example (D) starts with stamp coupling, which is one of the weaker kinds.
+
+**Classification note:** modular design (coupling and cohesion) is software engineering, which is not in the current syllabus.
+
+**Key idea:** the more a module depends on the inside of another (content, then common), the stronger and worse the coupling; plain data parameters are the weakest and best.
+
+</details>
+
+## 2009 CS Q20: Rows per column and columns per row of an HTML table
+
+*CS · 1 mark · MCQ · official key: none (blank in key) · status: unverified*
+
+**Question**
+
+Consider the HTML table definition given below:
+
+```html
+<table border=1>
+<tr> <td rowspan=2> ab </td>
+     <td colspan=2> cd </td>
+</tr>
+<tr> <td> ef </td>
+     <td rowspan=2> gh </td>
+</tr>
+<tr> <td colspan=2> ik </td>
+</tr>
+</table>
+```
+
+The number of rows in each column and the number of columns in each row are:
+
+- (A) ⟨2, 2, 3⟩ and ⟨2, 3, 2⟩
+- (B) ⟨2, 2, 3⟩ and ⟨2, 2, 3⟩
+- (C) ⟨2, 3, 2⟩ and ⟨2, 3, 2⟩
+- (D) ⟨2, 3, 2⟩ and ⟨2, 2, 3⟩
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**C** (my answer; the supplied key leaves Q20 blank)
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+**Official key:** the key table in the supplied PDF has no entry for Q20, so I cannot check against it. The answer below is my own reading.
+
+Lay the cells out on a grid. Each cell goes in the first free slot of its row, and a `rowspan` cell blocks its slot in the rows below:
+
+| | Column 1 | Column 2 | Column 3 |
+|---|---|---|---|
+| Row 1 | ab | cd | cd |
+| Row 2 | ab | ef | gh |
+| Row 3 | ik | ik | gh |
+
+- `ab` has `rowspan=2`, so it fills column 1 in rows 1 and 2.
+- `cd` has `colspan=2`, so it fills columns 2 and 3 of row 1.
+- In row 2, column 1 is taken by `ab`, so `ef` goes to column 2 and `gh` to column 3. `gh` has `rowspan=2`, so it also takes column 3 of row 3.
+- In row 3, only columns 1 and 2 are free, and `ik` (`colspan=2`) fills them.
+
+Now count the **cells** (the `td` elements) that appear in each column and in each row:
+
+- Per column: column 1 has `ab`, `ik` (2); column 2 has `cd`, `ef`, `ik` (3); column 3 has `cd`, `gh` (2). That is $\langle 2, 3, 2 \rangle$.
+- Per row: row 1 has `ab`, `cd` (2); row 2 has `ab`, `ef`, `gh` (3); row 3 has `ik`, `gh` (2). That is $\langle 2, 3, 2 \rangle$.
+
+So the answer is (C).
+
+- (A), (B), (D) each give $\langle 2, 2, 3 \rangle$ for one of the two counts, which does not match either count above.
+
+**Status note:** marked `unverified` because the key gives no answer and the question is open to a reading. If "rows in each column" is read as the number of grid squares, every column has $3$ and every row has $3$, giving $\langle 3, 3, 3 \rangle$ for both, which is not an option. Only the count of distinct cells matches an option. A small program laid out the table and gave per-column $[2, 3, 2]$ and per-row $[2, 3, 2]$ distinct cells, and $[3, 3, 3]$ grid squares per column.
+
+**Classification note:** HTML table markup is not part of the current syllabus.
+
+**Key idea:** place `rowspan` and `colspan` cells on a grid first, then count the distinct cells in each column and row.
+
+</details>
+
+## 2009 CS Q49: True statements about data flow diagrams
+
+*CS · 2 marks · MCQ · official key: C · status: verified*
+
+**Question**
+
+Which of the following statements are TRUE?
+
+- I. The context diagram should depict the system as a single bubble.
+- II. External entities should be identified clearly at all levels of DFDs.
+- III. Control information should not be represented in a DFD.
+- IV. A data store can be connected either to another data store or to an external entity.
+
+Options:
+
+- (A) II and III
+- (B) I, II and IV
+- (C) I and III
+- (D) I, II and III
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**C**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+- **I. True.** The context diagram (level 0) shows the whole system as one bubble, with the external entities around it.
+- **II. False (judgement call).** External entities are drawn on the context diagram and the top level. When a process is exploded into lower levels, the sources and sinks are not required to be repeated at every level; what must stay consistent is the data flows into and out of the exploded process. The official key treats II as false, and I follow it.
+- **III. True.** A DFD shows the flow of **data** between processes, stores and entities. Control information (such as signals or the order of execution) belongs in other models, not in a DFD.
+- **IV. False.** Data does not move by itself. A data store can be connected only to processes, so a flow from one store to another store, or between a store and an external entity, is not allowed.
+
+True: I and III, so (C).
+
+- (A) and (D) contain II. (B) contains II and IV.
+
+**Classification note:** data flow diagrams belong to structured analysis in software engineering, which is not in the current syllabus.
+
+**Key idea:** a context diagram is one bubble, DFDs carry data and not control, and data stores connect only to processes.
+
+</details>
+
+## 2009 CS Q50: Statements about cyclomatic complexity
+
+*CS · 2 marks · MCQ · official key: B · status: verified*
+
+**Question**
+
+Consider the following statements about the cyclomatic complexity of the control flow graph of a program module. Which of these are TRUE?
+
+- I. The cyclomatic complexity of a module is equal to the maximum number of linearly independent circuits in the graph.
+- II. The cyclomatic complexity of a module is the number of decisions in the module plus one, where a decision is effectively any conditional statement in the module.
+- III. The cyclomatic complexity can also be used as a number of linearly independent paths that should be tested during path coverage testing.
+
+Options:
+
+- (A) I and II
+- (B) II and III
+- (C) I and III
+- (D) I, II and III
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**B**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+For a control flow graph with $E$ edges and $N$ nodes (one entry, one exit), $V(G) = E - N + 2$.
+
+- **II is true.** $V(G)$ equals the number of decision points plus one. Two sequential `if`s give $V(G) = 3$.
+- **III is true.** $V(G)$ is the number of linearly independent paths through the module, so it is the number of paths a basis-path test set must cover.
+- **I is false as written.** The flow graph itself has $E - N + 1 = V(G) - 1$ independent circuits. McCabe's count of $V(G)$ circuits is for the graph made strongly connected by adding an edge from the exit back to the entry. So "the number of independent circuits in the graph" is one less than $V(G)$ for the flow graph.
+
+True: II and III, so (B).
+
+- (A), (C), (D) all contain I.
+
+**Judgement call:** statement I is true if "the graph" is read as the strongly connected graph with the return edge. The key treats it as false, which is the reading for the flow graph as drawn, and I follow the key.
+
+**Code check:** a program counted these for small graphs. For the flow graph of one `if-else` ($4$ edges, $4$ nodes): $V(G) = 2$ and $1$ independent circuit. With the exit-to-entry edge added ($5$ edges): $2$ independent circuits. For two sequential `if`s ($8$ edges, $7$ nodes): $V(G) = 3$, which is decisions plus one.
+
+**Classification note:** cyclomatic complexity is a software metric, which is not in the current syllabus.
+
+**Key idea:** $V(G) = \text{decisions} + 1 = E - N + 2$, and it counts the independent paths to test.
+
+</details>
 
 ## 2010 CS Q2: One Newton-Raphson iteration for the root of x² − 13
 
