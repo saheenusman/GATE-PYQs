@@ -1,9 +1,10 @@
 # Out of syllabus
 
-The current GATE CS syllabus has no software engineering section. These 13 questions from GATE 2013, 2014 and 2015 are on that subject (service-oriented computing, process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
+The current GATE CS syllabus has no software engineering section and no numerical methods topic. These 14 questions from GATE 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
 
 | Question | Theme | Official key |
 |---|---|---|
+| 2012 CS Q28 | Bisection method (numerical methods) | B |
 | 2013 CS Q11 | Service-oriented computing and web services | C |
 | 2013 CS Q38 | Modular design (cohesion and coupling) | A |
 | 2014 CS1 Q18 | Software process models | B |
@@ -17,6 +18,50 @@ The current GATE CS syllabus has no software engineering section. These 13 quest
 | 2015 CS3 Q17 | Software process and estimation | 612 to 613 |
 | 2015 CS3 Q33 | Software testing and metrics | 28 |
 | 2015 CS3 Q58 | Software testing and metrics | A |
+
+## 2012 CS Q28: Iterations of the bisection method
+
+*CS · 2 marks · MCQ · official key: B · status: verified*
+
+**Question**
+
+The bisection method is applied to compute a zero of the function $f(x) = x^4 - x^3 - x^2 - 4$ in the interval $[1, 9]$. The method converges to a solution after ––––– iterations.
+
+- (A) 1
+- (B) 3
+- (C) 5
+- (D) 7
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**B**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+$f(1) = 1 - 1 - 1 - 4 = -5 < 0$ and $f(9) = 6561 - 729 - 81 - 4 > 0$, so a zero lies in $[1, 9]$. Each step takes the midpoint $m$ and keeps the half where the sign changes.
+
+| Iteration | Interval | Midpoint $m$ | $f(m)$ | Next interval |
+|---|---|---|---|---|
+| 1 | $[1, 9]$ | $5$ | $471 > 0$ | $[1, 5]$ |
+| 2 | $[1, 5]$ | $3$ | $41 > 0$ | $[1, 3]$ |
+| 3 | $[1, 3]$ | $2$ | $0$ | zero found |
+
+At the third midpoint, $f(2) = 16 - 8 - 4 - 4 = 0$ exactly, so the method stops after **3** iterations: (B).
+
+- (A) the first midpoint $5$ is not a zero.
+- (C), (D) would be needed only if the zero were not hit exactly by a midpoint; here $x = 2$ is one.
+
+**Reading of "converges".** The question does not define it; the key reads it as "the iteration reaches the zero", which happens here at an exact midpoint.
+
+**Code check:** three bisection steps on $[1, 9]$ gave midpoints $5$, $3$, $2$ and $f(2) = 0$.
+
+**Key idea:** bisection halves the interval each step; a root that is a midpoint is found immediately.
+
+</details>
 
 ## 2013 CS Q11: Service-oriented computing matching
 
