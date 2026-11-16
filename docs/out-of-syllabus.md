@@ -1,9 +1,13 @@
 # Out of syllabus
 
-The current GATE CS syllabus has no software engineering section and no numerical methods topic. These 18 questions from GATE 2011, 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
+The current GATE CS syllabus has no software engineering section and no numerical methods topic. These 22 questions from GATE 2010, 2011, 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation). They are kept here for completeness, with answers checked against the official key, but they are **not** part of any topic page or the by-year lists.
 
 | Question | Theme | Official key |
 |---|---|---|
+| 2010 CS Q2 | Newton-Raphson method (numerical methods) | D |
+| 2010 CS Q21 | Cyclomatic complexity of modules in sequence | A |
+| 2010 CS Q22 | Software life cycle activities | B |
+| 2010 CS Q44 | Statement coverage (testing) | D |
 | 2011 CS Q5 | Software cost estimation (break-even size) | B |
 | 2011 CS Q7 | Basic COCOMO effort estimate | A |
 | 2011 CS Q10 | Contents of a software requirement specification | D |
@@ -22,6 +26,198 @@ The current GATE CS syllabus has no software engineering section and no numerica
 | 2015 CS3 Q17 | Software process and estimation | 612 to 613 |
 | 2015 CS3 Q33 | Software testing and metrics | 28 |
 | 2015 CS3 Q58 | Software testing and metrics | A |
+
+## 2010 CS Q2: One Newton-Raphson iteration for the root of x² − 13
+
+*CS · 1 mark · MCQ · official key: D · status: verified*
+
+**Question**
+
+Newton-Raphson method is used to compute a root of the equation $x^2 - 13 = 0$ with $3.5$ as the initial value. The approximation after one iteration is
+
+- (A) 3.575
+- (B) 3.676
+- (C) 3.667
+- (D) 3.607
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**D**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+The update is $x_1 = x_0 - \dfrac{f(x_0)}{f'(x_0)}$ with $f(x) = x^2 - 13$ and $f'(x) = 2x$.
+
+$$x_1 = 3.5 - \frac{3.5^2 - 13}{2 \times 3.5} = 3.5 - \frac{-0.75}{7} = 3.5 + 0.10714 = 3.60714$$
+
+So $x_1 \approx 3.607$: (D).
+
+- (A) $3.575$, (B) $3.676$ and (C) $3.667$ are not what the formula gives. For a check, $\sqrt{13} \approx 3.6056$, and $3.607$ is the closest to it.
+
+**Code check:** Python gave $x_1 = 3.607142857\ldots$
+
+**Classification note:** this is a pure numerical-methods computation, like the 2012 bisection question below, so it is filed here. The repo does file a 2014 Newton-Raphson question under calculus, but that one asks about the convergence behaviour of the method on a cubic, not a one-step computation.
+
+**Key idea:** one Newton-Raphson step is $x_1 = x_0 - f(x_0)/f'(x_0)$.
+
+</details>
+
+## 2010 CS Q21: Cyclomatic complexity of two modules joined in sequence
+
+*CS · 1 mark · MCQ · official key: A · status: verified*
+
+**Question**
+
+The cyclomatic complexity of each of the modules A and B shown below is $10$. What is the cyclomatic complexity of the sequential integration shown on the right hand side?
+
+![Three flow diagrams. On the left, module A: an arrow comes in at the top and one leaves at the bottom. In the middle, module B, drawn the same way. On the right, the sequential integration: one arrow comes in at the top into A, an arrow leads from A down into B, and one arrow leaves B at the bottom.](assets/2010/set1-q21.png)
+
+- (A) 19
+- (B) 21
+- (C) 20
+- (D) 10
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**A**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+Use $M = E - N + 2$ for a flow graph with $E$ edges and $N$ nodes. For A and B, $M = 10$ means $E - N = 8$ for each.
+
+Join them in sequence: the exit of A is linked to the entry of B. Nothing else changes, so
+
+$$M = (E_A + E_B + 1) - (N_A + N_B) + 2 = (E_A - N_A) + (E_B - N_B) + 3 = 8 + 8 + 3 = 19.$$
+
+Equivalently, $M = \text{decisions} + 1$: A has $9$ decisions, B has $9$, and joining them adds none, so $M = 18 + 1 = 19$.
+
+So $M = M_A + M_B - 1 = 19$: (A).
+
+- (C) $20$ is $M_A + M_B$ and misses the $-1$.
+- (B) $21$ and (D) $10$ do not follow from the formula.
+
+**Code check:** two flow graphs with $M = 10$ each (a chain of $9$ if-else diamonds) were joined by one edge, giving $M = 19$. Merging A's exit node with B's entry node instead also gives $19$.
+
+**Key idea:** for modules in sequence, $M = M_1 + M_2 - 1$.
+
+</details>
+
+## 2010 CS Q22: Software life cycle activities and their pairing
+
+*CS · 1 mark · MCQ · official key: B · status: verified*
+
+**Question**
+
+What is the appropriate pairing of items in the two columns listing various activities encountered in a software life cycle?
+
+| Activity | Description |
+|---|---|
+| P. Requirements Capture | 1. Module Development and Integration |
+| Q. Design | 2. Domain Analysis |
+| R. Implementation | 3. Structural and Behavioral Modeling |
+| S. Maintenance | 4. Performance Tuning |
+
+- (A) P-3, Q-2, R-4, S-1
+- (B) P-2, Q-3, R-1, S-4
+- (C) P-3, Q-2, R-1, S-4
+- (D) P-2, Q-3, R-4, S-1
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**B**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+- **P, requirements capture: 2, domain analysis.** Capturing requirements starts by understanding the application domain.
+- **Q, design: 3, structural and behavioural modelling.** Design models the structure and behaviour of the system.
+- **R, implementation: 1, module development and integration.** Implementation builds the modules and integrates them.
+- **S, maintenance: 4, performance tuning.** After release, maintenance includes tuning and fixing.
+
+That is P-2, Q-3, R-1, S-4: (B).
+
+- (A) and (C) pair requirements capture with structural modelling, which is design work.
+- (D) pairs implementation with performance tuning, which is a maintenance-stage activity.
+
+**Key idea:** requirements → domain analysis, design → modelling, implementation → building modules, maintenance → tuning.
+
+</details>
+
+## 2010 CS Q44: Test suite for full statement coverage
+
+*CS · 2 marks · MCQ · official key: D · status: verified*
+
+**Question**
+
+The following program is to be tested for statement coverage:
+
+```
+begin
+    if (a == b) {S1; exit;}
+    else if (c == d) {S2;}
+    else {S3; exit;}
+    S4;
+end
+```
+
+The test cases T1, T2, T3 and T4 given below are expressed in terms of the properties satisfied by the values of variables $a, b, c$ and $d$. The exact values are not given.
+
+- T1: $a, b, c$ and $d$ are all equal
+- T2: $a, b, c$ and $d$ are all distinct
+- T3: $a = b$ and $c \ne d$
+- T4: $a \ne b$ and $c = d$
+
+Which of the test suites given below ensures coverage of statements S1, S2, S3 and S4?
+
+- (A) T1, T2, T3
+- (B) T2, T4
+- (C) T3, T4
+- (D) T1, T2, T4
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**D**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+First work out which statements each test runs.
+
+| Test | Path | Statements run |
+|---|---|---|
+| T1 ($a = b$) | first branch, then exit | S1 |
+| T2 ($a \ne b$, $c \ne d$) | else branch, then exit | S3 |
+| T3 ($a = b$) | first branch, then exit | S1 |
+| T4 ($a \ne b$, $c = d$) | middle branch, then falls through | S2, S4 |
+
+S4 can only run when $a \ne b$ and $c = d$, so T4 is needed. S3 needs T2. S1 needs T1 or T3.
+
+- (A) T1, T2, T3 never run S2 or S4.
+- (B) T2, T4 never run S1.
+- (C) T3, T4 never run S3.
+- (D) T1, T2, T4 run S1, S3, and S2 with S4: full coverage.
+
+Option (D).
+
+**Code check:** the program was simulated with concrete values for each test class; only suite (D) covers all four statements.
+
+**Key idea:** statement coverage needs every statement executed at least once; S4 is reachable only through the `c == d` branch.
+
+</details>
 
 ## 2011 CS Q5: Break-even size for two programming languages
 
