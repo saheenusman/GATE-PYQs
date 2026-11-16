@@ -1,9 +1,11 @@
 # Out of syllabus
 
-The current GATE CS syllabus has no software engineering section, no numerical methods topic and no HTML markup topic. These 26 questions from GATE 2009, 2010, 2011, 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation, data flow diagrams, HTML tables). They are kept here for completeness, with answers checked against the official key where the key gives one, but they are **not** part of any topic page or the by-year lists.
+The current GATE CS syllabus has no software engineering section, no numerical methods topic and no HTML markup topic. These 28 questions from GATE 2008, 2009, 2010, 2011, 2012, 2013, 2014 and 2015 are on those subjects (numerical methods, service-oriented computing, process models, requirements, modular design, testing, metrics, estimation, data flow diagrams, HTML tables). They are kept here for completeness, with answers checked against the official key where the key gives one, but they are **not** part of any topic page or the by-year lists.
 
 | Question | Theme | Official key |
 |---|---|---|
+| 2008 CS Q21 | Trapezoidal rule (numerical integration error bound) | A |
+| 2008 CS Q22 | Newton-Raphson iteration (numerical methods) | C |
 | 2009 CS Q19 | Modular design (types of coupling) | A |
 | 2009 CS Q20 | HTML tables (rowspan and colspan) | none (blank in key) |
 | 2009 CS Q49 | Data flow diagrams | C |
@@ -30,6 +32,94 @@ The current GATE CS syllabus has no software engineering section, no numerical m
 | 2015 CS3 Q17 | Software process and estimation | 612 to 613 |
 | 2015 CS3 Q33 | Software testing and metrics | 28 |
 | 2015 CS3 Q58 | Software testing and metrics | A |
+
+## 2008 CS Q21: Subintervals needed for the trapezoidal rule
+
+*CS · 2 marks · MCQ · official key: A · status: verified*
+
+**Question**
+
+The minimum number of equal length subintervals needed to approximate $\displaystyle\int_1^2 x e^x\,dx$ to an accuracy of at least $\dfrac{1}{3} \times 10^{-6}$ using the trapezoidal rule is
+
+- (A) $1000e$
+- (B) $1000$
+- (C) $100e$
+- (D) $100$
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**A**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+The trapezoidal rule with $n$ equal subintervals on $[a, b]$ has error at most
+
+$$\frac{(b-a)^3}{12\,n^2}\,\max_{[a,b]} |f''(x)|.$$
+
+Here $f(x) = x e^x$, so $f'(x) = (x+1)e^x$ and $f''(x) = (x+2)e^x$. This is increasing, so on $[1, 2]$ its maximum is $f''(2) = 4e^2$.
+
+$$\text{error} \le \frac{1}{12 n^2} \cdot 4e^2 = \frac{e^2}{3n^2}.$$
+
+Require $\dfrac{e^2}{3n^2} \le \dfrac{1}{3} \times 10^{-6}$, i.e. $n^2 \ge e^2 \times 10^6$, so $n \ge 1000e$ ($\approx 2718$): (A).
+
+- (B) $n = 1000$ gives a bound of $2.46 \times 10^{-6}$, about $7$ times too large.
+- (C) $n = 100e$ and (D) $n = 100$ give bounds of $3.3 \times 10^{-5}$ and $2.46 \times 10^{-4}$.
+
+**Code check:** the bound $e^2/(3n^2)$ is $3.33 \times 10^{-7}$ at $n = 1000e$ (equal to the target), $2.46 \times 10^{-6}$ at $n = 1000$, $3.33 \times 10^{-5}$ at $n = 100e$ and $2.46 \times 10^{-4}$ at $n = 100$.
+
+**Caveat:** the bound is a worst-case guarantee. Computing the true trapezoidal error directly, $n = 1000$ gives $1.39 \times 10^{-6}$ (still too large) and the smallest $n$ that actually meets the target is $2046$. Among the options only (A) works either way, and it is the answer the question intends.
+
+**Classification note:** numerical integration (error analysis) is not in the current syllabus, so this is filed here.
+
+**Key idea:** trapezoidal error $\le \dfrac{(b-a)^3}{12n^2}\max|f''|$; solve for $n$.
+
+</details>
+
+## 2008 CS Q22: What the iteration x(n+1) = (x(n) + R/x(n))/2 computes
+
+*CS · 2 marks · MCQ · official key: C · status: verified*
+
+**Question**
+
+The Newton-Raphson iteration $x_{n+1} = \dfrac{1}{2}\left(x_n + \dfrac{R}{x_n}\right)$ can be used to compute the
+
+- (A) square of $R$
+- (B) reciprocal of $R$
+- (C) square root of $R$
+- (D) logarithm of $R$
+
+<details class="success" markdown="1">
+<summary>Answer</summary>
+
+**C**
+
+</details>
+
+<details class="info" markdown="1">
+<summary>Solution</summary>
+
+Apply Newton-Raphson to $f(x) = x^2 - R$, whose positive root is $\sqrt{R}$:
+
+$$x_{n+1} = x_n - \frac{x_n^2 - R}{2x_n} = \frac{2x_n^2 - x_n^2 + R}{2x_n} = \frac{1}{2}\left(x_n + \frac{R}{x_n}\right).$$
+
+This is exactly the given iteration, so it computes $\sqrt{R}$: (C).
+
+Equivalently, if $x_n \to L$ then $L = \tfrac12 (L + R/L)$, so $L^2 = R$.
+
+- (A) A square needs no iteration, and (D) the logarithm is not a root of an algebraic equation like this.
+- (B) The reciprocal comes from $f(x) = 1/x - R$, which gives $x_{n+1} = x_n(2 - R x_n)$, a different formula.
+
+**Code check:** with $R = 2$ and $x_0 = 1$, thirty iterations gave $1.414213562373095$, which matches $\sqrt{2} = 1.4142135623730951$ to double precision.
+
+**Classification note:** this is the numerical-methods (root finding) topic, not in the current syllabus, so it is filed here beside the 2010 and 2012 questions.
+
+**Key idea:** Newton-Raphson on $x^2 - R = 0$ is the Babylonian square-root method.
+
+</details>
 
 ## 2009 CS Q19: Ranking types of coupling from strongest to weakest
 
